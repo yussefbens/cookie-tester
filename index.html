@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Tester</title>
+</head>
+<body>
+    <h1>Cookie Tester</h1>
+    <p id="cookie-text"></p>
+    <button onclick="fillCookies()">Fill Cookies</button>
+    <button onclick="clearCookies()">Clear Cookies</button>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            getCookies()
+        })
+        function setCookie(name,value,time) {
+            var expires = "";
+            if (time) {
+                var date = new Date();
+                date.setTime(date.getTime() + (time*60*60*1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            console.log('expires', expires);
+            document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+        }
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+        function deleteAllCookies() {
+            var cookies = document.cookie.split(";");
+
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            }
+        }
+
+        function fillCookies() {
+            setCookie('test', 'cookie-value', 10);
+            getCookies();
+            alert('cookies filled');
+        }
+        function getCookies() {
+            const cookieText = document.getElementById("cookie-text");
+            const cookie = getCookie('test')
+            if (cookie) {
+                cookieText.textContent = cookie + ': expiration: 10hours'
+            } else {
+                alert("no cookie available")
+            }
+        }
+        function clearCookies() {
+            deleteAllCookies();
+            const cookieText = document.getElementById("cookie-text");
+            cookieText.textContent = '';
+            alert('cookies cleared');
+        }
+    </script>
+</body>
+</html>
