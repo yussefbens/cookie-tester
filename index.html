@@ -47,7 +47,7 @@
         }
 
         function fillCookies() {
-            setCookie('test', 'cookie-value', 10);
+            setCookie('test', 'cookie-value', 100);
             getCookies();
             alert('cookies filled');
         }
@@ -55,7 +55,7 @@
             const cookieText = document.getElementById("cookie-text");
             const cookie = getCookie('test')
             if (cookie) {
-                cookieText.textContent = cookie + ': expiration: 10hours'
+                cookieText.textContent = cookie + ': expiration: 100hours'
             } else {
                 alert("no cookie available")
             }
